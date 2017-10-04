@@ -1,0 +1,81 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<app-navbar>
+</app-navbar>
+
+<div class="container">
+
+
+  <div class="row">
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+
+      <div *ngIf="!marcadorsel">
+
+        <div class="alert alert-info">
+          <!-- <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> -->
+          <strong>Haga click!</strong> en el mapa para crear un marcador o seleccione uno
+        </div>
+
+      </div>
+
+      <div *ngIf="marcadorsel">
+        <h5>Marcador</h5>
+        <hr>
+
+        <div class="form-group">
+          <label for="">Titulo</label>
+          <input name="titulo" [(ngModel)]="marcadorsel.titulo" type="text" class="form-control" id="" placeholder="Input field">
+        </div>
+
+        <div class="form-group">
+          <label for="">Descripcion</label>
+          <textarea rows="5" name="desc" [(ngModel)]="marcadorsel.desc" class="form-control" id="" placeholder="Input field">
+                </textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="">Draggable</label>
+
+          <select (change)="cambiarDraggable()" name="draggable" [(ngModel)]="draggable" id="" class="form-control">
+                    <option value="1">SI</option>
+                    <option value="0">NO</option>
+                  </select>
+
+        </div>
+
+
+
+        <button type="button" (click)="_ms.guardarMarcadores()" class="btn btn-primary btn-block">Guardar</button>
+
+      </div>
+
+    </div>
+
+
+    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+      <agm-map (mapClick)="clickMapa($event)" [zoom]="zoom" [latitude]="lat" [longitude]="lng">
+        <agm-marker (markerClick)="clickMarcador(marcador, i) " (dragEnd)="dragEndMarcador(marcador, $event)" [markerDraggable]="marcador.draggable"
+          [title]="marcador.titulo" [latitude]="marcador.lat" [longitude]="marcador.lng" *ngFor="let marcador of _ms.marcadores; let i = index">
+
+          <agm-info-window>
+            <strong>{{marcador.titulo}}</strong>
+            <p *ngIf="marcador.desc" class="text-info">{{marcador.desc}}</p>
+
+            <p>
+              <button (click)="borrarMarcador(i)" type="button" class="btn  btn-danger">Borrar </button>
+            </p>
+
+
+          </agm-info-window>
+        </agm-marker>
+      </agm-map>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+</div>
